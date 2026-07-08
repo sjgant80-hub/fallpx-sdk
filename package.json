@@ -1,0 +1,54 @@
+{
+  "name": "@ai-native-solutions/fallpx-sdk",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Sovereign SDK for FallPx — pack dense text into compact PNGs before sending to Claude. Cuts input costs 60% on long code, docs, transcripts, logs. Auto-preserves exact-recall spans (hashes, UUIDs, keys) as text so nothing critical gets mis-OCR'd. BYOK, direct-to-Anthropic.",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": { "types": "./src/index.d.ts", "import": "./src/index.js" },
+    "./detect": "./src/detect.js",
+    "./split": "./src/split.js",
+    "./cost": "./src/cost.js",
+    "./render": "./src/render.js",
+    "./claude": "./src/claude.js"
+  },
+  "files": ["src/", "docs/", "examples/", "README.md", "LICENSE"],
+  "scripts": {
+    "example": "node examples/quick-start.mjs"
+  },
+  "keywords": [
+    "fallpx",
+    "anthropic",
+    "claude",
+    "cost-reduction",
+    "text-to-image",
+    "ocr-packing",
+    "deepseek-ocr",
+    "sovereign",
+    "byok",
+    "ai-native-solutions"
+  ],
+  "author": "AI-Native Solutions",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sjgant80-hub/fallpx-sdk.git"
+  },
+  "homepage": "https://sjgant80-hub.github.io/fallpx-sdk/",
+  "bugs": {
+    "url": "https://github.com/sjgant80-hub/fallpx-sdk/issues"
+  },
+  "peerDependencies": {
+    "canvas": "^2.11.2"
+  },
+  "peerDependenciesMeta": {
+    "canvas": { "optional": true }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
