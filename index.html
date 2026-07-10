@@ -120,9 +120,9 @@ footer a:hover{color:var(--sage)}
 <div class="slider-row">density<input type="range" id="density" min="10" max="18" step="1" value="12"><span class="val" id="density-val">12px</span></div>
 <div class="slider-row">width<input type="range" id="width" min="768" max="1568" step="32" value="1440"><span class="val" id="width-val">1440</span></div>
 <select id="model">
-<option value="claude-haiku-4-5-20251001">Haiku 4.5 · fast · $1/1M</option>
-<option value="claude-sonnet-4-6" selected>Sonnet 4.6 · balanced · $3/1M</option>
-<option value="claude-opus-4-7">Opus 4.7 · best OCR · $5/1M</option>
+<option value="claude-haiku-4-5-20251001">Haiku 4.5 · fast · TBA/1M</option>
+<option value="claude-sonnet-4-6" selected>Sonnet 4.6 · balanced · TBA/1M</option>
+<option value="claude-opus-4-7">Opus 4.7 · best OCR · TBA/1M</option>
 </select>
 <button class="btn ghost" id="btn-repack">Re-pack</button>
 <button class="btn" id="btn-send" disabled>Send to Claude</button>
@@ -255,7 +255,7 @@ async function loadHistory(){const d=await openDB();return new Promise((res,rej)
 async function clearHistory(){const d=await openDB();return new Promise((res)=>{const t=d.transaction('history','readwrite');t.objectStore('history').clear();t.oncomplete=()=>res()})}
 async function wipeAll(){const d=await openDB();return new Promise((res)=>{const t=d.transaction(['kv','history'],'readwrite');t.objectStore('kv').clear();t.objectStore('history').clear();t.oncomplete=()=>res()})}
 
-const PATTERNS={hex40:/\b[0-9a-fA-F]{40}\b/g,hex32:/\b[0-9a-fA-F]{32}\b/g,uuid:/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi,base64:/\b[A-Za-z0-9+/]{40,}={0,2}\b/g,jsonkey:/"[a-zA-Z_][a-zA-Z0-9_]{2,}"\s*:/g,longnum:/\b\d{10,}\b/g,skant:/sk-ant-[A-Za-z0-9_-]{20,}/g,skopenai:/sk-[A-Za-z0-9]{40,}/g,sha:/[0-9a-f]{64}/g};
+const PATTERNS={hex40:/\b[0-9a-fA-F]{40}\b/g,hex32:/\b[0-9a-fA-F]{32}\b/g,uuid:/\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/gi,base64:/\b[A-Za-z0-9+/]{40}={0,2}\b/g,jsonkey:/"[a-zA-Z_][a-zA-Z0-9_]{2}"\s*:/g,longnum:/\b\d{10}\b/g,skant:/sk-ant-[A-Za-z0-9_-]{20}/g,skopenai:/sk-[A-Za-z0-9]{40}/g,sha:/[0-9a-f]{64}/g};
 function detectPreserved(text,enabledPatternNames){const spans=[];for(const name of enabledPatternNames){const pat=PATTERNS[name];if(!pat)continue;pat.lastIndex=0;let m;while((m=pat.exec(text))!==null){spans.push({start:m.index,end:m.index+m[0].length,text:m[0],pattern:name})}}spans.sort((a,b)=>a.start-b.start);const merged=[];for(const s of spans){if(merged.length&&s.start<=merged[merged.length-1].end){merged[merged.length-1].end=Math.max(merged[merged.length-1].end,s.end)}else merged.push({...s})}return merged}
 function splitByPreserved(text,spans){const parts=[];let cursor=0;for(const s of spans){if(s.start>cursor)parts.push({type:'image',text:text.slice(cursor,s.start)});parts.push({type:'keep',text:text.slice(s.start,s.end),pattern:s.pattern});cursor=s.end}if(cursor<text.length)parts.push({type:'image',text:text.slice(cursor)});return parts}
 
